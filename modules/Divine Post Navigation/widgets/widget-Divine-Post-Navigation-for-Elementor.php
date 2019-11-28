@@ -146,9 +146,19 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 		// get our input from the widget settings.
 		$settings = $this->get_settings_for_display();
 		?>
-		<div class="post-navigation">dsada
-			<?php next_post_link( '%link', 'Next post', TRUE ); ?>
-			<?php 
+		<style>
+			img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
+				width: 150px;
+				border-radius: 50px 0 0 50px;
+			}
+		</style>
+		<div class="post-navigation">
+			<?php next_post_link( '%link', 'Next post', TRUE );
+				$nextPost = get_next_post();
+				$nextThumbnail = get_the_post_thumbnail( $nextPost->ID );
+				next_post_link( '%link', $nextThumbnail );
+			?>
+			<?php previous_post_link( '%link', 'previous post', TRUE );
 				$prevPost = get_previous_post();
 				$prevThumbnail = get_the_post_thumbnail( $prevPost->ID );
 				previous_post_link( '%link', $prevThumbnail );
