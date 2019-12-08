@@ -27,20 +27,11 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 
 	protected function _register_controls() {
 
-
+		/* Content Tab */
 		$this->start_controls_section(
 			'section_query',
 			[
 				'label' => esc_html__( 'Basic', 'elementor-custom-widget' ),
-			]
-		);
-		$this->add_control(
-			'heading_text',
-			[
-				'label' => __( 'Heading Text', 'elementor-custom-widget' ),
-				'type' => Controls_Manager::TEXT,
-				'default' => '',
-				'title' => __( 'Enter some text', 'elementor-custom-widget' ),
 			]
 		);
 
@@ -56,6 +47,21 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 		);
 
 		$this->add_control(
+			'show_custom_labels',
+			[
+				'label' => __( 'Custom Labels', 'elementor-custom-widget' ),
+				'type' => Controls_Manager::SWITCHER,
+				'description' => 'whether to use post title as labels or custom labels',
+				'label_on' => __( 'Yes', 'elementor-custom-widget' ),
+				'label_off' => __( 'No', 'elementor-custom-widget' ),
+				'default' => 'yes',
+				'condition' => [
+					'show_label' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
 			'prev_label',
 			[
 				'label' => __( 'Previous Label', 'elementor-custom-widget' ),
@@ -63,6 +69,10 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 				'default' => __( 'Previous', 'elementor-custom-widget' ),
 				'condition' => [
 					'show_label' => 'yes',
+				],
+				'condition' => [
+					'show_label' => 'yes',
+					'show_custom_labels' => 'yes',
 				],
 			]
 		);
@@ -75,6 +85,7 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 				'default' => __( 'Next', 'elementor-custom-widget' ),
 				'condition' => [
 					'show_label' => 'yes',
+					'show_custom_labels' => 'yes',
 				],
 			]
 		);
@@ -87,6 +98,9 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 				'label_on' => __( 'Show', 'elementor-custom-widget' ),
 				'label_off' => __( 'Hide', 'elementor-custom-widget' ),
 				'default' => 'yes',
+				'condition' => [
+					'show_arrow' => 'yes',
+				],
 			]
 		);
 
@@ -112,33 +126,196 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 				],
 			]
 		);
-
 		$this->add_control(
-			'show_title',
+			'text_align',
 			[
-				'label' => __( 'Post Title', 'elementor-custom-widget' ),
-				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-custom-widget' ),
-				'label_off' => __( 'Hide', 'elementor-custom-widget' ),
-				'default' => 'yes',
+				'label' => __( 'Alignment', 'plugin-domain' ),
+				'type' => \Elementor\Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => __( 'Left', 'plugin-domain' ),
+						'icon' => 'fa fa-align-left',
+					],
+					'center' => [
+						'title' => __( 'Center', 'plugin-domain' ),
+						'icon' => 'fa fa-align-center',
+					],
+					'right' => [
+						'title' => __( 'Right', 'plugin-domain' ),
+						'icon' => 'fa fa-align-right',
+					],
+				],
+				'default' => 'center',
+				'toggle' => true,
+				'condition' => [
+					'show_label' => 'yes',
+				],
+			]
+		);
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'style_label_section',
+			[
+				'label' => __( 'Label Settings', 'elementor-custom-widget' ),
+				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'content_typography',
+				'label' => __( 'Typography', 'plugin-domain' ),
+				'scheme' => Scheme_Typography::TYPOGRAPHY_1,
+				'selector' => '{{WRAPPER}} .div-nav-title a',
+			]
+		);
+
+				$this->start_controls_tabs(
+			'btn_style_tabs'
+		);
+		$this->start_controls_tab(
+			'btn_style_normal_tab',
+			[
+				'label' => __( 'Normal', 'divine-addons-for-elementor' ),
 			]
 		);
 
 		$this->add_control(
-			'show_borders',
+			'label_color',
 			[
-				'label' => __( 'Borders', 'elementor-custom-widget' ),
-				'type' => Controls_Manager::SWITCHER,
-				'label_on' => __( 'Show', 'elementor-custom-widget' ),
-				'label_off' => __( 'Hide', 'elementor-custom-widget' ),
-				'default' => 'yes',
-				'prefix_class' => 'elementor-post-navigation-borders-',
+				'label' => __( 'Label Color', 'divine-addons-for-elementor' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'scheme' => [
+					'type' => \Elementor\Scheme_Color::get_type(),
+					'value' => \Elementor\Scheme_Color::COLOR_1,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .div-post-nav .div-nav-title a' => 'color: {{VALUE}}',
+				],
+			]
+		);
+
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'btn_style_hover_tab',
+			[
+				'label' => __( 'Hover', 'divine-addons-for-elementor' ),
+			]
+		);
+
+		$this->add_control(
+			'label_color_hvr',
+			[
+				'label' => __( 'Label Color', 'divine-addons-for-elementor' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'scheme' => [
+					'type' => \Elementor\Scheme_Color::get_type(),
+					'value' => \Elementor\Scheme_Color::COLOR_1,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .div-post-nav:hover .div-nav-title a' => 'color: {{VALUE}}',
+				],
+			]
+		);
+
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'style_image_section',
+			[
+				'label' => __( 'Image Settings', 'elementor-custom-widget' ),
+				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name' => 'border',
+				'label' => __( 'Border', 'plugin-domain' ),
+				'selector' => '{{WRAPPER}} img',
+			]
+		);
+		$this->add_control(
+			'border_radius_settings',
+			[
+				'label' => __( 'Border Radius', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		$this->add_responsive_control(
+            'border_radius_prev',
+            [
+                'label' => __( 'Previous Image', 'elementor-custom-widget' ),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .div-nav-prev img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+		$this->add_responsive_control(
+            'border_radius_next',
+            [
+                'label' => __( 'Next Image', 'elementor-custom-widget' ),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .div-nav-next img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+		);
+		$this->add_control(
+			'hr',
+			[
+				'type' => \Elementor\Controls_Manager::DIVIDER,
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name' => 'box_shadow',
+				'label' => __( 'Box Shadow', 'plugin-domain' ),
+				'selector' => '{{WRAPPER}} img',
 			]
 		);
 
 		$this->end_controls_section();
 
+		
+		/* End of Content Tab */
 
+		/* Layout Section */
+		$this->start_controls_section(
+			'grid_layout_section',
+			[
+				'label' => __( 'Grid', 'plugin-name' ),
+				'tab' => \Elementor\Controls_Manager::TAB_LAYOUT,
+			]
+		);
+
+		$this->add_control(
+			'full_width_fixed',
+			[
+				'label' => __( 'Full Width Fixed btns', 'elementor-custom-widget' ),
+				'type' => Controls_Manager::SWITCHER,
+				'label_on' => __( 'Yes', 'elementor-custom-widget' ),
+				'label_off' => __( 'No', 'elementor-custom-widget' ),
+				'default' => 'yes',
+			]
+		);
+
+		$this->end_controls_section();
+		/* End of Grid Layout Section */
 
 	}
 
@@ -147,22 +324,103 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 		$settings = $this->get_settings_for_display();
 		?>
 		<style>
-			img.attachment-post-thumbnail.size-post-thumbnail.wp-post-image {
+			.divine-post-navigation {
+				display: flex;
+				justify-content: space-evenly;
+			}
+			.divine-post-navigation > div{
+				display: flex;
+				flex-direction: column;
+			}
+			.div-post-nav img {
 				width: 150px;
-				border-radius: 50px 0 0 50px;
+				/* border-radius: 50px 0 0 50px; */
+			}
+			.full-width-nav .div-post-nav {
+				position: fixed;
+				bottom: 15%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+			.div-nav-title{
+				width:100%;
+				text-align: <?php echo $settings['text_align'] ?>;
+			}
+			.div-post-nav a{
+				height: fit-content;
+			}
+			.div-post-nav.div-nav-next {
+				right: 0;
+				align-items: flex-end;
+			}
+			.div-post-nav.div-nav-prev {
+				left: 0;
+				align-items: flex-start;
+			}
+			.div-post-nav.div-nav-prev  img {
+			/* border-radius: 0 50px 50px 0 !important; */
+			}
+			.div-post-nav a {font-weight: 700;color: #000;padding: 0px;}
+			.div-post-nav .div-nav-title {
+				padding: 0 20px;
+			}
+			.div-post-nav:hover a{
+				color: #3a3a3a;
+			}
+			.div-post-nav.div-nav-prev .div-nav-title {
+				/* border-radius: 0 50px 50px 0; */
+			}
+			.div-post-nav.div-nav-next .div-nav-title {
+				/* border-radius: 50px 0 0 50px; */
 			}
 		</style>
-		<div class="post-navigation">
-			<?php next_post_link( '%link', 'Next post', TRUE );
-				$nextPost = get_next_post();
-				$nextThumbnail = get_the_post_thumbnail( $nextPost->ID );
-				next_post_link( '%link', $nextThumbnail );
-			?>
-			<?php previous_post_link( '%link', 'previous post', TRUE );
+		<?php
+			$cssClass = '';
+			if($settings['full_width_fixed']){
+				$cssClass = 'full-width-nav';
+			}
+			$next_label = false;
+			$prev_label = false;
+			if($settings['show_label']){
+				if($settings['show_custom_labels']){
+					$next_label = $settings['next_label'];
+					$prev_label = $settings['prev_label'];
+				}else{
+					$next_label = '%title';
+					$prev_label = '%title';
+				}
+			}
+		?>
+		<div class="divine-post-navigation <?php echo $cssClass ?>">
+			<div class="div-post-nav div-nav-prev">
+			<?php
 				$prevPost = get_previous_post();
-				$prevThumbnail = get_the_post_thumbnail( $prevPost->ID );
-				previous_post_link( '%link', $prevThumbnail );
+				if($prevPost){
+					$prevThumbnail = get_the_post_thumbnail( $prevPost->ID );
+					previous_post_link( '%link', $prevThumbnail );
+				}
 			?>
+				<span class='div-nav-title'>
+			<?php
+				previous_post_link( '%link', $prev_label, TRUE );
+			?>
+				</span>
+			</div>
+			<div class="div-post-nav div-nav-next">
+			<?php
+				$nextPost = get_next_post();
+				if($nextPost){
+					$nextThumbnail = get_the_post_thumbnail( $nextPost->ID );
+					next_post_link( '%link', $nextThumbnail );
+				}
+			?>
+				<span class='div-nav-title'>
+			<?php
+				next_post_link( '%link', $next_label, TRUE );
+			?>
+				</span>
+			</div>
 		</div>
 
 		<?php
