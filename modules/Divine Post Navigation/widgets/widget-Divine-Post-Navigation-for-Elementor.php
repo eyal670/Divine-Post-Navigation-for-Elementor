@@ -22,7 +22,7 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-post-list';
+		return 'eicon-post-navigation';
 	}
 
 	protected function _register_controls() {
