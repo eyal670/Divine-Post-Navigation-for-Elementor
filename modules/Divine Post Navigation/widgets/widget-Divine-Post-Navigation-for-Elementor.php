@@ -235,14 +235,6 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			]
 		);
 
-		$this->add_group_control(
-			Group_Control_Border::get_type(),
-			[
-				'name' => 'border',
-				'label' => __( 'Border', 'plugin-domain' ),
-				'selector' => '{{WRAPPER}} img',
-			]
-		);
 		$this->add_control(
 			'border_radius_settings',
 			[
@@ -280,14 +272,132 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			]
 		);
 
-		$this->add_group_control(
-			Group_Control_Box_Shadow::get_type(),
+		$this->add_control(
+			'hr2',
 			[
-				'name' => 'box_shadow',
-				'label' => __( 'Box Shadow', 'plugin-domain' ),
-				'selector' => '{{WRAPPER}} img',
+				'type' => \Elementor\Controls_Manager::DIVIDER,
 			]
 		);
+		$this->add_control(
+			'transition_speed',
+			[
+				'label' => __( 'transition speed', 'plugin-domain' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 's' ],
+				'range' => [
+					's' => [
+						'min' => 0,
+						'max' => 10,
+						'step' => 0.1,
+					],
+				],
+				'default' => [
+					'unit' => 's',
+					'size' => 0.3,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .div-post-nav img' => 'transition: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+		$this->start_controls_tabs(
+			'img_style_tabs'
+		);
+			$this->start_controls_tab(
+				'img_style_normal_tab',
+				[
+					'label' => __( 'Normal', 'plugin-domain' ),
+				]
+			);
+				$this->add_group_control(
+					Group_Control_Border::get_type(),
+					[
+						'name' => 'img_border',
+						'label' => __( 'Border', 'plugin-domain' ),
+						'selector' => '{{WRAPPER}} img',
+					]
+				);
+				$this->add_group_control(
+					Group_Control_Box_Shadow::get_type(),
+					[
+						'name' => 'box_shadow',
+						'label' => __( 'Box Shadow', 'plugin-domain' ),
+						'selector' => '{{WRAPPER}} img',
+					]
+				);
+				$this->add_group_control(
+					Group_Control_Css_Filter::get_type(),
+					[
+						'name' => 'css_filters',
+						'selector' => '{{WRAPPER}} .div-post-nav img',
+					]
+				);
+				$this->add_control(
+					'img_opacity',
+					[
+						'label' => __( 'Opacity', 'plugin-domain' ),
+						'type' => Controls_Manager::SLIDER,
+						'range' => [
+							'px' => [
+								'max' => 1,
+								'min' => 0.10,
+								'step' => 0.01,
+							],
+						],
+						'selectors' => [
+							'{{WRAPPER}} .div-post-nav img' => 'opacity: {{SIZE}};',
+						],
+					]
+				);
+			$this->end_controls_tab();
+			$this->start_controls_tab(
+				'img_style_hover_tab',
+				[
+					'label' => __( 'Hover', 'plugin-domain' ),
+				]
+			);
+				$this->add_group_control(
+					Group_Control_Border::get_type(),
+					[
+						'name' => 'img_border_hover',
+						'label' => __( 'Border', 'plugin-domain' ),
+						'selector' => '{{WRAPPER}} .div-post-nav:hover img',
+					]
+				);
+				$this->add_group_control(
+					Group_Control_Box_Shadow::get_type(),
+					[
+						'name' => 'box_shadow_hover',
+						'label' => __( 'Box Shadow', 'plugin-domain' ),
+						'selector' => '{{WRAPPER}} .div-post-nav:hover img',
+					]
+				);
+				$this->add_group_control(
+					Group_Control_Css_Filter::get_type(),
+					[
+						'name' => 'css_filters_hover',
+						'selector' => '{{WRAPPER}} .div-post-nav:hover img',
+					]
+				);
+				$this->add_control(
+					'img_opacity_hover',
+					[
+						'label' => __( 'Opacity', 'elementor' ),
+						'type' => Controls_Manager::SLIDER,
+						'range' => [
+							'px' => [
+								'max' => 1,
+								'min' => 0.10,
+								'step' => 0.01,
+							],
+						],
+						'selectors' => [
+							'{{WRAPPER}} .div-post-nav:hover img' => 'opacity: {{SIZE}};',
+						],
+					]
+				);
+			$this->end_controls_tab();
+		$this->end_controls_tabs();
 
 		$this->end_controls_section();
 
@@ -296,9 +406,9 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 
 		/* Layout Section */
 		$this->start_controls_section(
-			'grid_layout_section',
+			'layout_section',
 			[
-				'label' => __( 'Grid', 'plugin-name' ),
+				'label' => __( 'Layout', 'plugin-name' ),
 				'tab' => \Elementor\Controls_Manager::TAB_LAYOUT,
 			]
 		);
@@ -311,6 +421,36 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 				'label_on' => __( 'Yes', 'elementor-custom-widget' ),
 				'label_off' => __( 'No', 'elementor-custom-widget' ),
 				'default' => 'yes',
+			]
+		);
+		$this->add_control(
+			'fixed_pos_bottom',
+			[
+				'label' => __( 'Bottom Position', 'plugin-domain' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'vh' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1000,
+						'step' => 5,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+					'vh' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => '%',
+					'size' => 15,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .full-width-nav .div-post-nav' => 'opacity: {{SIZE}};',
+				],
 			]
 		);
 
@@ -338,10 +478,11 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			}
 			.full-width-nav .div-post-nav {
 				position: fixed;
-				bottom: 15%;
+				bottom: <?php echo $settings['fixed_pos_bottom']['size'] ?>;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
+				z-index: 999;
 			}
 			.div-nav-title{
 				width:100%;
@@ -350,12 +491,16 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			.div-post-nav a{
 				height: fit-content;
 			}
-			.div-post-nav.div-nav-next {
+			.full-width-nav .div-nav-next{
 				right: 0;
+			}
+			.full-width-nav .div-nav-prev{
+				left: 0;
+			}
+			.div-post-nav.div-nav-next {
 				align-items: flex-end;
 			}
 			.div-post-nav.div-nav-prev {
-				left: 0;
 				align-items: flex-start;
 			}
 			.div-post-nav.div-nav-prev  img {
@@ -398,7 +543,9 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 				$prevPost = get_previous_post();
 				if($prevPost){
 					$prevThumbnail = get_the_post_thumbnail( $prevPost->ID );
-					previous_post_link( '%link', $prevThumbnail );
+					if($prevThumbnail){
+						previous_post_link( '%link', $prevThumbnail );
+					}
 				}
 			?>
 				<span class='div-nav-title'>
@@ -412,7 +559,9 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 				$nextPost = get_next_post();
 				if($nextPost){
 					$nextThumbnail = get_the_post_thumbnail( $nextPost->ID );
-					next_post_link( '%link', $nextThumbnail );
+					if($nextThumbnail){
+						next_post_link( '%link', $nextThumbnail );
+					}
 				}
 			?>
 				<span class='div-nav-title'>
