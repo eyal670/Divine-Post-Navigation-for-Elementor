@@ -449,7 +449,7 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 					'size' => 15,
 				],
 				'selectors' => [
-					'{{WRAPPER}} .full-width-nav .div-post-nav' => 'opacity: {{SIZE}};',
+					'{{WRAPPER}} .full-width-nav .div-post-nav' => 'bottom: {{SIZE}}{{UNIT}};',
 				],
 			]
 		);
@@ -478,7 +478,7 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			}
 			.full-width-nav .div-post-nav {
 				position: fixed;
-				bottom: <?php echo $settings['fixed_pos_bottom']['size'] ?>;
+				bottom: <?php echo $settings['fixed_pos_bottom']['size'].$settings['fixed_pos_bottom']['unit'] ?>;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
