@@ -273,12 +273,6 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 		);
 
 		$this->add_control(
-			'hr2',
-			[
-				'type' => \Elementor\Controls_Manager::DIVIDER,
-			]
-		);
-		$this->add_control(
 			'transition_speed',
 			[
 				'label' => __( 'transition speed', 'plugin-domain' ),
