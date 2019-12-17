@@ -235,163 +235,176 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'border_radius_settings',
-			[
-				'label' => __( 'Border Radius', 'plugin-name' ),
-				'type' => \Elementor\Controls_Manager::HEADING,
-				'separator' => 'before',
-			]
-		);
-		$this->add_responsive_control(
-            'border_radius_prev',
-            [
-                'label' => __( 'Previous Image', 'elementor-custom-widget' ),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', '%' ],
-                'selectors' => [
-                    '{{WRAPPER}} .div-nav-prev img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-        );
-		$this->add_responsive_control(
-            'border_radius_next',
-            [
-                'label' => __( 'Next Image', 'elementor-custom-widget' ),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', '%' ],
-                'selectors' => [
-                    '{{WRAPPER}} .div-nav-next img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-            ]
-		);
-		$this->add_control(
-			'hr',
-			[
-				'type' => \Elementor\Controls_Manager::DIVIDER,
-			]
-		);
-
-		$this->add_control(
-			'transition_speed',
-			[
-				'label' => __( 'transition speed', 'plugin-domain' ),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ 's' ],
-				'range' => [
-					's' => [
-						'min' => 0,
-						'max' => 10,
-						'step' => 0.1,
+			$this->add_control(
+				'border_radius_settings',
+				[
+					'label' => __( 'Border Radius', 'plugin-name' ),
+					'type' => \Elementor\Controls_Manager::HEADING,
+					'separator' => 'before',
+				]
+			);
+			$this->add_responsive_control(
+				'border_radius_prev',
+				[
+					'label' => __( 'Previous Image', 'elementor-custom-widget' ),
+					'type' => \Elementor\Controls_Manager::DIMENSIONS,
+					'size_units' => [ 'px', '%' ],
+					'selectors' => [
+						'{{WRAPPER}} .div-nav-prev img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 					],
-				],
+				]
+			);
+			$this->add_responsive_control(
+				'border_radius_next',
+				[
+					'label' => __( 'Next Image', 'elementor-custom-widget' ),
+					'type' => \Elementor\Controls_Manager::DIMENSIONS,
+					'size_units' => [ 'px', '%' ],
+					'selectors' => [
+						'{{WRAPPER}} .div-nav-next img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					],
+				]
+			);
+			$this->add_control(
+				'hr',
+				[
+					'type' => \Elementor\Controls_Manager::DIVIDER,
+				]
+			);
+
+			$this->add_control(
+				'transition_speed',
+				[
+					'label' => __( 'transition speed', 'plugin-domain' ),
+					'type' => Controls_Manager::SLIDER,
+					'size_units' => [ 's' ],
+					'range' => [
+						's' => [
+							'min' => 0,
+							'max' => 10,
+							'step' => 0.1,
+						],
+					],
+					'default' => [
+						'unit' => 's',
+						'size' => 0.3,
+					],
+					'selectors' => [
+						'{{WRAPPER}} .div-post-nav img' => 'transition: {{SIZE}}{{UNIT}};',
+					],
+				]
+			);
+			$this->start_controls_tabs(
+				'img_style_tabs'
+			);
+				$this->start_controls_tab(
+					'img_style_normal_tab',
+					[
+						'label' => __( 'Normal', 'plugin-domain' ),
+					]
+				);
+					$this->add_group_control(
+						Group_Control_Border::get_type(),
+						[
+							'name' => 'img_border',
+							'label' => __( 'Border', 'plugin-domain' ),
+							'selector' => '{{WRAPPER}} img',
+						]
+					);
+					$this->add_group_control(
+						Group_Control_Box_Shadow::get_type(),
+						[
+							'name' => 'box_shadow',
+							'label' => __( 'Box Shadow', 'plugin-domain' ),
+							'selector' => '{{WRAPPER}} img',
+						]
+					);
+					$this->add_group_control(
+						Group_Control_Css_Filter::get_type(),
+						[
+							'name' => 'css_filters',
+							'selector' => '{{WRAPPER}} .div-post-nav img',
+						]
+					);
+					$this->add_control(
+						'img_opacity',
+						[
+							'label' => __( 'Opacity', 'plugin-domain' ),
+							'type' => Controls_Manager::SLIDER,
+							'range' => [
+								'px' => [
+									'max' => 1,
+									'min' => 0.10,
+									'step' => 0.01,
+								],
+							],
+							'selectors' => [
+								'{{WRAPPER}} .div-post-nav img' => 'opacity: {{SIZE}};',
+							],
+						]
+					);
+				$this->end_controls_tab();
+				$this->start_controls_tab(
+					'img_style_hover_tab',
+					[
+						'label' => __( 'Hover', 'plugin-domain' ),
+					]
+				);
+					$this->add_group_control(
+						Group_Control_Border::get_type(),
+						[
+							'name' => 'img_border_hover',
+							'label' => __( 'Border', 'plugin-domain' ),
+							'selector' => '{{WRAPPER}} .div-post-nav:hover img',
+						]
+					);
+					$this->add_group_control(
+						Group_Control_Box_Shadow::get_type(),
+						[
+							'name' => 'box_shadow_hover',
+							'label' => __( 'Box Shadow', 'plugin-domain' ),
+							'selector' => '{{WRAPPER}} .div-post-nav:hover img',
+						]
+					);
+					$this->add_group_control(
+						Group_Control_Css_Filter::get_type(),
+						[
+							'name' => 'css_filters_hover',
+							'selector' => '{{WRAPPER}} .div-post-nav:hover img',
+						]
+					);
+					$this->add_responsive_control(
+						'img_opacity_hover',
+						[
+							'label' => __( 'Opacity', 'elementor' ),
+							'type' => Controls_Manager::SLIDER,
+							'range' => [
+								'px' => [
+									'max' => 1,
+									'min' => 0.10,
+									'step' => 0.01,
+								],
+							],
+							'selectors' => [
+								'{{WRAPPER}} .div-post-nav:hover img' => 'opacity: {{SIZE}};',
+							],
+						]
+					);
+				$this->end_controls_tab();
+			$this->end_controls_tabs();
+
+			$this->add_control(
+			'custom_img_dimension',
+			[
+				'label' => __( 'Image Dimension', 'plugin-domain' ),
+				'type' => \Elementor\Controls_Manager::IMAGE_DIMENSIONS,
+				'description' => __( 'Crop the original image size to any custom size. Set custom width or height to keep the original size ratio.', 'plugin-name' ),
 				'default' => [
-					'unit' => 's',
-					'size' => 0.3,
-				],
-				'selectors' => [
-					'{{WRAPPER}} .div-post-nav img' => 'transition: {{SIZE}}{{UNIT}};',
+					'width' => '150',
+					'height' => '',
 				],
 			]
 		);
-		$this->start_controls_tabs(
-			'img_style_tabs'
-		);
-			$this->start_controls_tab(
-				'img_style_normal_tab',
-				[
-					'label' => __( 'Normal', 'plugin-domain' ),
-				]
-			);
-				$this->add_group_control(
-					Group_Control_Border::get_type(),
-					[
-						'name' => 'img_border',
-						'label' => __( 'Border', 'plugin-domain' ),
-						'selector' => '{{WRAPPER}} img',
-					]
-				);
-				$this->add_group_control(
-					Group_Control_Box_Shadow::get_type(),
-					[
-						'name' => 'box_shadow',
-						'label' => __( 'Box Shadow', 'plugin-domain' ),
-						'selector' => '{{WRAPPER}} img',
-					]
-				);
-				$this->add_group_control(
-					Group_Control_Css_Filter::get_type(),
-					[
-						'name' => 'css_filters',
-						'selector' => '{{WRAPPER}} .div-post-nav img',
-					]
-				);
-				$this->add_control(
-					'img_opacity',
-					[
-						'label' => __( 'Opacity', 'plugin-domain' ),
-						'type' => Controls_Manager::SLIDER,
-						'range' => [
-							'px' => [
-								'max' => 1,
-								'min' => 0.10,
-								'step' => 0.01,
-							],
-						],
-						'selectors' => [
-							'{{WRAPPER}} .div-post-nav img' => 'opacity: {{SIZE}};',
-						],
-					]
-				);
-			$this->end_controls_tab();
-			$this->start_controls_tab(
-				'img_style_hover_tab',
-				[
-					'label' => __( 'Hover', 'plugin-domain' ),
-				]
-			);
-				$this->add_group_control(
-					Group_Control_Border::get_type(),
-					[
-						'name' => 'img_border_hover',
-						'label' => __( 'Border', 'plugin-domain' ),
-						'selector' => '{{WRAPPER}} .div-post-nav:hover img',
-					]
-				);
-				$this->add_group_control(
-					Group_Control_Box_Shadow::get_type(),
-					[
-						'name' => 'box_shadow_hover',
-						'label' => __( 'Box Shadow', 'plugin-domain' ),
-						'selector' => '{{WRAPPER}} .div-post-nav:hover img',
-					]
-				);
-				$this->add_group_control(
-					Group_Control_Css_Filter::get_type(),
-					[
-						'name' => 'css_filters_hover',
-						'selector' => '{{WRAPPER}} .div-post-nav:hover img',
-					]
-				);
-				$this->add_control(
-					'img_opacity_hover',
-					[
-						'label' => __( 'Opacity', 'elementor' ),
-						'type' => Controls_Manager::SLIDER,
-						'range' => [
-							'px' => [
-								'max' => 1,
-								'min' => 0.10,
-								'step' => 0.01,
-							],
-						],
-						'selectors' => [
-							'{{WRAPPER}} .div-post-nav:hover img' => 'opacity: {{SIZE}};',
-						],
-					]
-				);
-			$this->end_controls_tab();
-		$this->end_controls_tabs();
 
 		$this->end_controls_section();
 
@@ -467,7 +480,8 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 				flex-direction: column;
 			}
 			.div-post-nav img {
-				width: 150px;
+				width: <?php echo $settings['custom_img_dimension']['width'] ?>px;
+				height: <?php echo $settings['custom_img_dimension']['height'] ?>px;
 				/* border-radius: 50px 0 0 50px; */
 			}
 			.full-width-nav .div-post-nav {
