@@ -469,6 +469,8 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 	protected function render( $instance = [] ) {
 		// get our input from the widget settings.
 		$settings = $this->get_settings_for_display();
+		$thumb_width = $settings['custom_img_dimension']['width'];
+		$thumb_height = $settings['custom_img_dimension']['height'];
 		?>
 		<style>
 			.divine-post-navigation {
@@ -478,11 +480,6 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			.divine-post-navigation > div{
 				display: flex;
 				flex-direction: column;
-			}
-			.div-post-nav img {
-				width: <?php echo $settings['custom_img_dimension']['width'] ?>px;
-				height: <?php echo $settings['custom_img_dimension']['height'] ?>px;
-				/* border-radius: 50px 0 0 50px; */
 			}
 			.full-width-nav .div-post-nav {
 				position: fixed;
@@ -550,7 +547,7 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			<?php
 				$prevPost = get_previous_post();
 				if($prevPost){
-					$prevThumbnail = get_the_post_thumbnail( $prevPost->ID );
+					$prevThumbnail = get_the_post_thumbnail( $prevPost->ID , 'post_thumbnail', array( 'style' => ($thumb_width ? 'width:'.$thumb_width.'px;' : '' ).($thumb_height ? 'height:'.$thumb_height.'px;' : '' ) ) );
 					if($prevThumbnail){
 						previous_post_link( '%link', $prevThumbnail );
 					}
@@ -566,7 +563,7 @@ class Widget_Divine_Post_Navigation extends Widget_Base {
 			<?php
 				$nextPost = get_next_post();
 				if($nextPost){
-					$nextThumbnail = get_the_post_thumbnail( $nextPost->ID );
+					$nextThumbnail = get_the_post_thumbnail( $nextPost->ID, 'post_thumbnail', array( 'style' => ($thumb_width ? 'width:'.$thumb_width.'px;' : '' ).($thumb_height ? 'height:'.$thumb_height.'px;' : '' ) ) );
 					if($nextThumbnail){
 						next_post_link( '%link', $nextThumbnail );
 					}
